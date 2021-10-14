@@ -4,20 +4,8 @@ import json
 import time
 from progress.bar import FillingSquaresBar
 
-'''from progress.bar import IncrementalBar
-
-mylist = [1,2,3,4,5,6,7,8]
-
-bar = IncrementalBar('Countdown', max = len(mylist))
-
-for item in mylist:
-    bar.next()
-    time.sleep(1)
-
-bar.finish()'''
-
 token_vk = "958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008"
-token_ya = ""
+token_ya = "AQAAAAAF5wpHAADLW49NVCGEuEXOjuckYnhI9Bc"
 test_vk_id = 552934290
 
 
