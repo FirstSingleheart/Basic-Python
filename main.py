@@ -16,7 +16,7 @@ class YaUploader:
         self.user_id = input('Укажите ID профиля VK: ')
         self.yandex_folder = input('Укажите название папки на Яндекс.Диске: ')
         self.count_save = int(input('Введите максимальное число сохраняемых фотографий (5 по умолчанию): '))
-        # self.get_new_folder()
+        self.get_new_folder()
 
     def get_new_folder(self):
         url = 'https://cloud-api.yandex.net/v1/disk/resources'
@@ -101,5 +101,5 @@ class YaUploader:
 
 if __name__ == '__main__':
     uploader = YaUploader()
-    # uploader.start()
-    print(uploader.get_requests_vk())
+    uploader.start()
+
