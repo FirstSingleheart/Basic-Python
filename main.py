@@ -16,8 +16,7 @@ class YaUploader:
         self.user_id = input('Укажите ID профиля VK: ')
         self.yandex_folder = input('Укажите название папки на Яндекс.Диске: ')
         self.count_save = int(input('Введите максимальное число сохраняемых фотографий (5 по умолчанию): '))
-        self.get_new_folder()
-
+        
     def get_new_folder(self):
         url = 'https://cloud-api.yandex.net/v1/disk/resources'
         headers = {
@@ -73,11 +72,10 @@ class YaUploader:
             for i in self.get_requests_vk()['response']['items']:
                 if count < self.count_save:
                     info = []
-                    prep_dict = dict([('file_name', str(i['likes']['count']) + '.jpg'),
+                    temp_dict = dict([('file_name', str(i['likes']['count']) + '.jpg'),
                                       ('size', i['sizes'][-1]['type'])])
-                    print('Загрузка:', i['sizes'][-1]['url'])
                     self.upload_file_ya_disk(str(i['likes']['count']) + '.jpg', i['sizes'][-1]['url'])
-                    info.append(prep_dict)
+                    info.append(temp_dict)
                     self.creation_json(info)
                     count += 1
 
