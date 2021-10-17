@@ -5,7 +5,7 @@ import time
 from progress.bar import FillingSquaresBar
 
 token_vk = "958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008"
-token_ya = "AQAAAAAF5wpHAADLW49NVCGEuEXOjuckYnhI9Bc"
+token_ya = ""
 test_vk_id = 552934290
 
 
