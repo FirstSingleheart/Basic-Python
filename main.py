@@ -5,7 +5,7 @@ import time
 from progress.bar import FillingSquaresBar
 
 token_vk = "958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008"
-token_ya = ""
+token_ya = "AQAAAAAF5wpHAADLW49NVCGEuEXOjuckYnhI9Bc"
 test_vk_id = 552934290
 
 
@@ -72,14 +72,17 @@ class YaUploader:
             for i in self.get_requests_vk()['response']['items']:
                 if count < self.count_save:
                     info = []
-                    temp_dict = {[('file_name', str(i['likes']['count']) + '.jpg'), ('size', i['sizes'][-1]['type'])]}
-                    if temp_dict[0][0] not in info:
+                    temp_dict = {'file_name': f"{str(i['likes']['count']) + '.jpg'}",
+                                 'size': f"{i['sizes'][-1]['type']}"}
+                    if f"{temp_dict['file_name']}" not in info:
                         info.append(temp_dict)
-                        self.upload_file_ya_disk(str(i['likes']['count']) + '.jpg', i['sizes'][-1]['url'])
+                        self.upload_file_ya_disk(f"{str(i['likes']['count']) + '.jpg'}", f"{i['sizes'][-1]['url']}")
                     else:
-                        alter_dict = {[('file_name', str(i['date']) + '.jpg'), ('size', i['sizes'][-1]['type'])]}
+                        alter_dict = {'file_name': f"{str(i['likes']['count']) + str(i['date']) + '.jpg'}",
+                                      'size': f"{i['sizes'][-1]['type']}"}
                         info.append(alter_dict)
-                        self.upload_file_ya_disk(str(i['date']) + '.jpg', i['sizes'][-1]['url'])
+                        self.upload_file_ya_disk(f"{str(i['likes']['count']) + str(i['date']) + '.jpg'}",
+                                                 f"{i['sizes'][-1]['url']}")
                     self.creation_json(info)
                     count += 1
 
@@ -104,5 +107,3 @@ class YaUploader:
 if __name__ == '__main__':
     uploader = YaUploader()
     uploader.start()
-
-
