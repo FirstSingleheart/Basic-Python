@@ -49,6 +49,7 @@ class YaUploader:
         return response.json()
 
     def upload_file_ya_disk(self, file_name, url_vk):
+        self.get_new_folder()
         file_path = self.yandex_folder + '/' + file_name
         up_url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
         headers = {'Content-Type': 'application/json', 'Authorization': f'OAuth {self.token_ya}'}
@@ -56,10 +57,10 @@ class YaUploader:
         response = requests.post(url=up_url, headers=headers, params=params)
         response.raise_for_status()
         if response.status_code == 202:
-            print('Файл загружен на Яндекс Диск')
+            print(f'\n Файл {file_name} загружен на Яндекс Диск')
 
     def creation_json(self, info):
-        with open('info_photo_files.json', 'a') as f:
+        with open('info_photo_files.json', 'a+') as f:
             json.dump(info, f, ensure_ascii=False, indent=2)
 
     def get_response(self):
@@ -69,22 +70,30 @@ class YaUploader:
         elif self.get_requests_vk()['response'].get('count', False) == 0:
             print(f'На аккаунте ID {self.user_id} нет фотографий!')
         else:
+            info_list = []
+            final_list = []
             for i in self.get_requests_vk()['response']['items']:
                 if count < self.count_save:
-                    info = []
-                    temp_dict = {'file_name': f"{str(i['likes']['count']) + '.jpg'}",
+                    temp_dict = {'file_name': f"{str(i['likes']['count'])}" + '.jpg',
                                  'size': f"{i['sizes'][-1]['type']}"}
-                    if f"{temp_dict['file_name']}" not in info:
-                        info.append(temp_dict)
-                        self.upload_file_ya_disk(f"{str(i['likes']['count']) + '.jpg'}", f"{i['sizes'][-1]['url']}")
+                    file_name = f"{str(i['likes']['count'])}" + '.jpg'
+                    if file_name not in info_list:
+                        file_name = file_name
+                        info_list.append(file_name)
+                        final_list.append(temp_dict)
+                        self.upload_file_ya_disk(file_name, f"{i['sizes'][-1]['url']}")
+                        count += 1
+                        print(file_name)
                     else:
-                        alter_dict = {'file_name': f"{str(i['likes']['count']) + str(i['date']) + '.jpg'}",
+                        alter_dict = {'file_name': f"{str(i['likes']['count'])}" + f"({str(i['date'])})" + '.jpg',
                                       'size': f"{i['sizes'][-1]['type']}"}
-                        info.append(alter_dict)
-                        self.upload_file_ya_disk(f"{str(i['likes']['count']) + str(i['date']) + '.jpg'}",
-                                                 f"{i['sizes'][-1]['url']}")
-                    self.creation_json(info)
-                    count += 1
+                        file_name = f"{str(i['likes']['count'])}" + f"({str(i['date'])})" + '.jpg'
+                        info_list.append(file_name)
+                        final_list.append(alter_dict)
+                        self.upload_file_ya_disk(file_name, f"{i['sizes'][-1]['url']}")
+                        count += 1
+                        print(file_name)
+            self.creation_json(final_list)
 
     def start(self):
         if self.count_save is not None:
