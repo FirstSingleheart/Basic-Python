@@ -23,10 +23,7 @@ class YaUploader:
             'Content-Type': 'application/json',
             'Authorization': f'OAuth {self.token_ya}'
         }
-        params = {
-            'path': self.yandex_folder,
-            'overwrite': 'true'
-        }
+        params = {'path': self.yandex_folder}
         response = requests.put(url=url, headers=headers, params=params)
         if response.status_code != 201:
             return f'Папка с именем: {self.yandex_folder} уже существует!'
