@@ -57,7 +57,7 @@ class YaUploader:
             print(f'\n Файл {file_name} загружен на Яндекс Диск')
 
     def creation_json(self, info):
-        with open('info_photo_files.json', 'a+') as f:
+        with open('info_photo_files.json', 'w') as f:
             json.dump(info, f, ensure_ascii=False, indent=2)
 
     def get_response(self):
